@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+CHANGED_FILES="$( git status --porcelain )"
+
+export_gpg() {
+    RECIPIENTS=""
+    PWD="$( pwd )"
+
+    for FILE in $( find $PWD -type f -name '*gpg-id*' ); do
+        RECIPIENTS+=$( cat $FILE | tr '\r\n' ' ' )
+    done
+
+    gpg -a --export $RECIPIENTS > .recipients.asc
+    chmod 664 .recipients.asc
+    git add .recipients.asc
+}
+
+check_run() {
+    echo $CHANGED_FILES | grep --quiet "$1" && echo " * changes detected in $1" && echo " * Export GPG Recipients" && eval "$2"
+}
+
+check_run .gpg-id export_gpg
+exit 0
