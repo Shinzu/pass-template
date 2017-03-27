@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# MIT © Sindre Sorhus - sindresorhus.com
-# fork from https://gist.github.com/sindresorhus/7996717
+# based on https://gist.github.com/sindresorhus/7996717
 
 changed_files="$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD)"
 
